@@ -14,6 +14,7 @@ namespace TheWhistle
                 Console.WriteLine("[3] CAMPAIGN MODE");
                 Console.WriteLine("[4] CREDITS ");
                 Console.WriteLine("[5] EXIT");
+                Console.WriteLine("Try lang");
                 string invalid = Console.ReadLine();
                     int.TryParse(invalid, out int ano);
                     switch (ano)
