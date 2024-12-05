@@ -6,7 +6,7 @@ namespace TheWhistle
 {
     internal class AccessDataBase
     {
-        public string conStr = @"Data Source=DESKTOP-ITTG3JJ\SQLEXPRESS02;Initial Catalog=HeroesDB;Integrated Security=True;";
+        public string conStr = @"Data Source=DESKTOP-ITTG3JJ\SQLEXPRESS02;Initial Catalog=HeroesDB;Integrated Security=Truex;";
         public bool CheckAccess()
         {
             try
@@ -19,7 +19,7 @@ namespace TheWhistle
             }
             catch (Exception e)
             {
-                Console.WriteLine("\nConnection Failed: " + e.Message);
+                Console.WriteLine("Connection Failed: " + e.Message);
                 return false;
             }
         }

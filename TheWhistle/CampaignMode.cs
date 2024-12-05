@@ -15,7 +15,7 @@ namespace TheWhistle
             if (!a.CheckAccess())
             {
                 Console.WriteLine("Unable to connect to the database.");
-                bool ano = f.boolOption("GENERAL CAMPAIGN MODE?");
+                bool ano = f.boolOption("\nGENERAL CAMPAIGN MODE?");
                 if (ano)
                 {
                     Console.WriteLine();

@@ -19,7 +19,7 @@ namespace TheWhistle
         string powerOption();
         string magicSkill(string[] mgaSkills);
         string techSkill(string[] mgaSkills);
-        string physicalSkill(string[] mgaSkills);
+        string physicalSkill(string[] mgaSkills);  
         string psychicSkill(string[] mgaSkills);
         string spaceSkill(string[] mgaSkills);
         string plantSkill(string[] mgaSkills);

@@ -137,13 +137,13 @@ namespace TheWhistle
         {            int tokensRemaining = 5;
 
             int mastery = 10 + AskForTokens("Mastery", ref tokensRemaining);
-            int health = (10 + AskForTokens("Health", ref tokensRemaining));
-            int stamina = (10 + AskForTokens("Stamina", ref tokensRemaining));
-            int defense =(10 + AskForTokens("Defense", ref tokensRemaining));
-            int agility =(10 + AskForTokens("Agility", ref tokensRemaining));
-            int recovery =(10 + AskForTokens("Recovery", ref tokensRemaining));
-            int speed = (10 + AskForTokens("Speed", ref tokensRemaining));
-            int mentalHealth =(10 + AskForTokens("Mental Health", ref tokensRemaining));
+            int health = 10 + AskForTokens("Health", ref tokensRemaining);
+            int stamina = 10 + AskForTokens("Stamina", ref tokensRemaining);
+            int defense =10 + AskForTokens("Defense", ref tokensRemaining);
+            int agility =10 + AskForTokens("Agility", ref tokensRemaining);
+            int recovery = 10 + AskForTokens("Recovery", ref tokensRemaining);
+            int speed = 10 + AskForTokens("Speed", ref tokensRemaining);
+            int mentalHealth =10 + AskForTokens("Mental Health", ref tokensRemaining);
 
             Console.WriteLine(tokensRemaining == 1 ? "Single token left" : $"{tokensRemaining} tokens left" );
 
@@ -151,7 +151,7 @@ namespace TheWhistle
             Console.Write("Creating character");
             for (int i = 0; i < 3; i++)
             {
-                Thread.Sleep(1500);
+                Thread.Sleep(1000);
                 Console.Write(".");
             }
             Console.WriteLine();
