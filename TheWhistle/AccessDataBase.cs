@@ -6,7 +6,7 @@ namespace TheWhistle
 {
     internal class AccessDataBase
     {
-        public string conStr = @"Data Source=DESKTOP-ITTG3JJ\SQLEXPRESS02;Initial Catalog=HeroesDB;Integrated Security=Truex;";
+        public string conStr = @"Data Source=DESKTOP-ITTG3JJ\SQLEXPRESS02;Initial Catalog=HeroesDB;Integrated Security=True;";
         public bool CheckAccess()
         {
             try
