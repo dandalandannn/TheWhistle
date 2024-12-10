@@ -26,7 +26,8 @@ internal class CampaignMode
 
     internal void campaignMode(AccessDataBase a, string conStr)
     {
-        Console.Write("Input character name: ");
+        a.CharacterList();
+        Console.Write("Input character name for campaign: ");
         string name = Console.ReadLine();
         Console.WriteLine();
 
@@ -100,6 +101,7 @@ class CampaignOptions
     }
     public static void Play(Script script)
     {
+        Console.Clear();
         Pampabagal p = new Pampabagal();
         p.lines("In a world where superhumans roam among us, ");
         p.lines("you, ");

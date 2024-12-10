@@ -82,40 +82,47 @@ internal class NewGame
         string starterSkill = string.Empty;
         string weaknesses = string.Empty;
 
-        string[] mgaSkills = { "Magical", "Technological", "Physical", "Psychic", "Space", "Nature Manipulation", "Time", "Elemental" };
+        string[] mgaSkillsMagic = { "Spell Castings","Reality Manipulation","Enchantment","Dark Magic","Light Magic","Astral Projection"};
+        string[] mgaSkillsTech = { "Advance Weaponry","Super Suits","Cybernetic Augmentation" };
+        string[] mgaSkillsPhysical = { "Super Strength","Hyper Regeneration","Shapeshifting","Body Durability","Body Elasticity","Super Hearing" };
+        string[] mgaSkillsPsych = { "Telepathy","Telekinesis","Mind Control","Illusions and Reality Warping","Precognition" };
+        string[] mgaSkillsSpace = { "Teleportation","Gravity Manipulation","Spatial Distortion","Force Fields & Barriers" };
+        string[] mgaSkillsNature = { "Plant Growth Manipulation","Animal Symbiosis","Toxic Natural Weaponry","Photosynthetic Ability" };
+        string[] mgaSkillsTime = { "Time Travel","Time Manipulation","Self-Duplication","Immortality" };
+        string[] mgaSkillsElemental = { "Fire Manipulation","Water Manipulation","Earth Manipulation","Air Manipulation" };
 
         switch (power)
         {
             case "Magical":
-                starterSkill = f.magicSkill(mgaSkills);
+                starterSkill = f.magicSkill(mgaSkillsMagic);
                 weaknesses = "Physical, Tech, and Space";
                 break;
             case "Technological":
-                starterSkill = f.techSkill(mgaSkills);
+                starterSkill = f.techSkill(mgaSkillsTech);
                 weaknesses = "Space, Time, and Elemental";
                 break;
             case "Physical":
-                starterSkill = f.physicalSkill(mgaSkills);
+                starterSkill = f.physicalSkill(mgaSkillsPhysical);
                 weaknesses = "Space, Time, and Psychic";
                 break;
             case "Psychic":
-                starterSkill = f.psychicSkill(mgaSkills);
+                starterSkill = f.psychicSkill(mgaSkillsPsych);
                 weaknesses = "Tech, Plant and Nature, and Space";
                 break;
             case "Space":
-                starterSkill = f.spaceSkill(mgaSkills);
+                starterSkill = f.spaceSkill(mgaSkillsSpace);
                 weaknesses = "Magic, Elemental, and Time";
                 break;
             case "Nature Manipulation":
-                starterSkill = f.plantSkill(mgaSkills);
+                starterSkill = f.plantSkill(mgaSkillsNature);
                 weaknesses = "Space, Time, and Magic";
                 break;
             case "Time":
-                starterSkill = f.timeSkill(mgaSkills);
+                starterSkill = f.timeSkill(mgaSkillsTime);
                 weaknesses = "Magic and Psychic";
                 break;
             case "Elemental":
-                starterSkill = f.elementalSkill(mgaSkills);
+                starterSkill = f.elementalSkill(mgaSkillsElemental);
                 weaknesses = "Plant and Nature, Physical, Time";
                 break;
         }
