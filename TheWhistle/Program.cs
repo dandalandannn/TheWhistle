@@ -23,7 +23,13 @@ internal class Program
                     case 3: Console.Clear(); CampaignMode cm = new CampaignMode(); break;
                     case 4: Console.Clear(); Credits.credits(); break;
                     case 5:
-                        Console.WriteLine("\nGame Exits...");
+                        Console.Write("\nGame Exits");
+                        for(int i = 0; i < 3; i++)
+                    {
+                        Thread.Sleep(200);
+                        Console.Write(".");
+                    }
+                        Thread.Sleep(200);
                         Environment.Exit(0);
                         break;
                     default:

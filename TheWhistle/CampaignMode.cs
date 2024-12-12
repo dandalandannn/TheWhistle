@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace TheWhistle;
 internal class CampaignMode
@@ -10,9 +10,9 @@ internal class CampaignMode
     {
         AccessDataBase a = new AccessDataBase();
 
-        if (!a.CheckAccess())
+        if (!a.CheckAccess() || a.IsEmpty(1))
         {
-            Console.WriteLine("Unable to connect to the database.");
+            Console.WriteLine(!a.CheckAccess() ? "Unable to connect to the database.": "No character found.");
             bool ano = f.boolOption("\nGENERAL CAMPAIGN MODE?");
             if (ano)
             {

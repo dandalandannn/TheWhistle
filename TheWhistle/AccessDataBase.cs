@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Data.SqlClient;
-using System.Xml.Linq;
+using Microsoft.Data.SqlClient;
 
 namespace TheWhistle;
 
 internal class AccessDataBase
 {
     Features f = new Features();
-    public string conStr = @"Data Source=DESKTOP-ITTG3JJ\SQLEXPRESS02;Initial Catalog=HeroesDB;Integrated Security=True;";
+    public string conStr = @"Data Source=DESKTOP-ITTG3JJ\SQLEXPRESS02;Initial Catalog=HeroesDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
     public bool CheckAccess()
     {
         try
@@ -24,82 +23,62 @@ internal class AccessDataBase
             return false;
         }
     }
-    public void Send(Character c)
-    {
-        string query = @"
-            INSERT INTO Heroes (Name, Gender, SkinTone, EyeColor, HairStyle, HairColor, Glasses, Moles, Freckles, Dimples, Mustache, Beard, 
-                                Top_, TopColor, Bottom, BottomColor, Shoes, ShoesColor, Cape, Collar, Gloves, Mask, Power, StarterSkill, 
-                                Weaknesses, Mastery, Health, Stamina, Defense, Agility, Recovery, Speed, MentalHealth, TokensRemaining)
-            VALUES (@Name, @Gender, @SkinTone, @EyeColor, @HairStyle, @HairColor, @Glasses, @Moles, @Freckles, @Dimples, @Mustache, 
-                    @Beard, @Top_, @TopColor, @Bottom, @BottomColor, @Shoes, @ShoesColor, @Cape, @Collar, @Gloves, @Mask, @Power, 
-                    @StarterSkill, @Weaknesses, @Mastery, @Health, @Stamina, @Defense, @Agility, @Recovery, @Speed, @MentalHealth, @TokensRemaining)";
 
+    public bool IsEmpty()
+    {
         try
         {
+            string query = "SELECT * FROM HEROES";
             using (SqlConnection connection = new SqlConnection(conStr))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Name", c.Name);
-                command.Parameters.AddWithValue("@Gender", c.Gender ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@SkinTone", c.SkinTone ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@EyeColor", c.EyeColor ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@HairStyle", c.HairStyle ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@HairColor", c.HairColor ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@Glasses", c.Glasses);
-                command.Parameters.AddWithValue("@Moles", c.Moles);
-                command.Parameters.AddWithValue("@Freckles", c.Freckles);
-                command.Parameters.AddWithValue("@Dimples", c.Dimples);
-                command.Parameters.AddWithValue("@Mustache", c.Mustache);
-                command.Parameters.AddWithValue("@Beard", c.Beard);
-                command.Parameters.AddWithValue("@Top_", c.Top_ ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@TopColor", c.TopColor ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@Bottom", c.Bottom ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@BottomColor", c.BottomColor ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@Shoes", c.Shoes ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@ShoesColor", c.ShoesColor ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@Cape", c.Cape);
-                command.Parameters.AddWithValue("@Collar", c.Collar);
-                command.Parameters.AddWithValue("@Gloves", c.Gloves);
-                command.Parameters.AddWithValue("@Mask", c.Mask);
-                command.Parameters.AddWithValue("@Power", c.Power ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@StarterSkill", c.StarterSkill ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@Weaknesses", c.Weaknesses ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@Mastery", c.Mastery);
-                command.Parameters.AddWithValue("@Health", c.Health);
-                command.Parameters.AddWithValue("@Stamina", c.Stamina);
-                command.Parameters.AddWithValue("@Defense", c.Defense);
-                command.Parameters.AddWithValue("@Agility", c.Agility);
-                command.Parameters.AddWithValue("@Recovery", c.Recovery);
-                command.Parameters.AddWithValue("@Speed", c.Speed);
-                command.Parameters.AddWithValue("@MentalHealth", c.MentalHealth);
-                command.Parameters.AddWithValue("@TokensRemaining", c.TokensRemaining);
-
                 connection.Open();
-                command.ExecuteNonQuery();
+                SqlDataReader reader = command.ExecuteReader();
+                if (!reader.HasRows)
+                    {
+                        Console.WriteLine("No character found.");
+                        Console.WriteLine("PRESS ANY KEY TO EXIT");
+                        Console.ReadKey(true);
+                        Console.Clear();
+                        return true;
+                    }
+                return false;
             }
-
-            Console.Write("Loading Files");
-            for (int i = 0; i < 3; i++)
-            {
-                Thread.Sleep(1500);
-                Console.Write(".");
-            }
-            Console.WriteLine("\nNew character is saved to database.");
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Console.WriteLine("ERROR: " + ex.Message);
-            Console.WriteLine("Unable to save the character.\n");
-        }
-        finally
-        {
-            Console.WriteLine("PRESS ANY KEY TO EXIT");
-            Console.ReadKey(true);
-            Console.Clear();
+            Console.WriteLine("Connection Failed: " + e.Message);
+            return true;
         }
     }
-    public void View()
+    public bool IsEmpty(int i)
     {
+        try
+        {
+            string query = "SELECT * FROM HEROES";
+            using (SqlConnection connection = new SqlConnection(conStr))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Connection Failed: " + e.Message);
+            return true;
+        }
+    }
+
+    public void ViewASpecific()
+    {
+        if (IsEmpty()) { return; }
+
         CharacterList();
         Console.Write("Input character name: ");
         string name = Console.ReadLine();
@@ -117,23 +96,13 @@ internal class AccessDataBase
                 if (reader.Read())
                 {
                     while (true)
-                    {
-                        Console.WriteLine($"\nCharacter Name: {name}");
-                        Console.WriteLine($"Gender: {reader["Gender"]}");
-                        Console.WriteLine($"Power: {reader["Power"]}");
-                        Console.WriteLine($"Weakness: {reader["Weaknesses"]}");
-                        bool uulitBa = f.boolOption("Do you want to view complete info?");
-                        if (uulitBa)
-                        {
-                            Console.Clear();
-                            ViewCompleteInfo(name);
-                            Console.WriteLine("PRESS ANY KEY TO EXIT");
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            return;
-
-                        }
-                            return;
+                    {  
+                        Console.Clear();
+                        ViewCompleteInfo(name);
+                        Console.WriteLine("PRESS ANY KEY TO EXIT");
+                        Console.ReadKey(true);
+                        Console.Clear();
+                        return;
                     }
                 }
                 else
@@ -155,6 +124,7 @@ internal class AccessDataBase
     }
     public void ViewCompleteInfo(string Name)
     {
+        if (IsEmpty()) { return; }
         string query = "SELECT * FROM Heroes WHERE Name = @Name";
         try
         {
@@ -245,6 +215,7 @@ internal class AccessDataBase
     }
     public void ViewAll()
     {
+        if (IsEmpty()) { return; }
         CharacterList();
         Console.WriteLine("PRESS ANY KEY TO EXIT");
         Console.ReadKey(true);
@@ -253,6 +224,7 @@ internal class AccessDataBase
 
     public void Delete()
     {
+        if (IsEmpty()) { return; }
         CharacterList();
         Console.WriteLine("______________________________");
         Console.Write("Input character name to delete: ");
@@ -304,6 +276,7 @@ internal class AccessDataBase
     }
     public void DeleteAll()
     {
+        if (IsEmpty()) { return; }
         Console.WriteLine("Are you sure you want to delete all characters? (YES or NO)");
         string anoNa = Console.ReadLine().ToLower();
 
@@ -340,6 +313,7 @@ internal class AccessDataBase
     }
     public void ViewAllWithCompleteInfo()
     {
+        if (IsEmpty()) { return; }
         string query = "SELECT * FROM Heroes";
         try
         {
@@ -393,5 +367,79 @@ internal class AccessDataBase
             }
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
+    }
+    public void Send(Character c)
+    {
+        string query = @"
+            INSERT INTO Heroes (Name, Gender, SkinTone, EyeColor, HairStyle, HairColor, Glasses, Moles, Freckles, Dimples, Mustache, Beard, 
+                                Top_, TopColor, Bottom, BottomColor, Shoes, ShoesColor, Cape, Collar, Gloves, Mask, Power, StarterSkill, 
+                                Weaknesses, Mastery, Health, Stamina, Defense, Agility, Recovery, Speed, MentalHealth, TokensRemaining)
+            VALUES (@Name, @Gender, @SkinTone, @EyeColor, @HairStyle, @HairColor, @Glasses, @Moles, @Freckles, @Dimples, @Mustache, 
+                    @Beard, @Top_, @TopColor, @Bottom, @BottomColor, @Shoes, @ShoesColor, @Cape, @Collar, @Gloves, @Mask, @Power, 
+                    @StarterSkill, @Weaknesses, @Mastery, @Health, @Stamina, @Defense, @Agility, @Recovery, @Speed, @MentalHealth, @TokensRemaining)";
+
+        try
+        {
+            using (SqlConnection connection = new SqlConnection(conStr))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Name", c.Name);
+                command.Parameters.AddWithValue("@Gender", c.Gender);
+                command.Parameters.AddWithValue("@SkinTone", c.SkinTone);
+                command.Parameters.AddWithValue("@EyeColor", c.EyeColor);
+                command.Parameters.AddWithValue("@HairStyle", c.HairStyle);
+                command.Parameters.AddWithValue("@HairColor", c.HairColor);
+                command.Parameters.AddWithValue("@Glasses", c.Glasses);
+                command.Parameters.AddWithValue("@Moles", c.Moles);
+                command.Parameters.AddWithValue("@Freckles", c.Freckles);
+                command.Parameters.AddWithValue("@Dimples", c.Dimples);
+                command.Parameters.AddWithValue("@Mustache", c.Mustache);
+                command.Parameters.AddWithValue("@Beard", c.Beard);
+                command.Parameters.AddWithValue("@Top_", c.Top_);
+                command.Parameters.AddWithValue("@TopColor", c.TopColor);
+                command.Parameters.AddWithValue("@Bottom", c.Bottom);
+                command.Parameters.AddWithValue("@BottomColor", c.BottomColor);
+                command.Parameters.AddWithValue("@Shoes", c.Shoes);
+                command.Parameters.AddWithValue("@ShoesColor", c.ShoesColor);
+                command.Parameters.AddWithValue("@Cape", c.Cape);
+                command.Parameters.AddWithValue("@Collar", c.Collar);
+                command.Parameters.AddWithValue("@Gloves", c.Gloves);
+                command.Parameters.AddWithValue("@Mask", c.Mask);
+                command.Parameters.AddWithValue("@Power", c.Power);
+                command.Parameters.AddWithValue("@StarterSkill", c.StarterSkill);
+                command.Parameters.AddWithValue("@Weaknesses", c.Weaknesses);
+                command.Parameters.AddWithValue("@Mastery", c.Mastery);
+                command.Parameters.AddWithValue("@Health", c.Health);
+                command.Parameters.AddWithValue("@Stamina", c.Stamina);
+                command.Parameters.AddWithValue("@Defense", c.Defense);
+                command.Parameters.AddWithValue("@Agility", c.Agility);
+                command.Parameters.AddWithValue("@Recovery", c.Recovery);
+                command.Parameters.AddWithValue("@Speed", c.Speed);
+                command.Parameters.AddWithValue("@MentalHealth", c.MentalHealth);
+                command.Parameters.AddWithValue("@TokensRemaining", c.TokensRemaining);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+
+            Console.Write("Loading Files");
+            for (int i = 0; i < 3; i++)
+            {
+                Thread.Sleep(1500);
+                Console.Write(".");
+            }
+            Console.WriteLine("\nNew character is saved to database.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("ERROR: " + ex.Message);
+            Console.WriteLine("Unable to save the character.\n");
+        }
+        finally
+        {
+            Console.WriteLine("PRESS ANY KEY TO EXIT");
+            Console.ReadKey(true);
+            Console.Clear();
+        }
     }
 }
