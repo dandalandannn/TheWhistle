@@ -6,7 +6,7 @@ namespace TheWhistle;
 internal class AccessDataBase
 {
     Features f = new Features();
-    public string conStr = @"Data Source=DESKTOP-ITTG3JJ\SQLEXPRESS02;Initial Catalog=HeroesDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=Truex";
+    public string conStr = @"Data Source=DESKTOP-ITTG3JJ\SQLEXPRESS02;Initial Catalog=HeroesDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
     public bool CheckAccess()
     {
         try
