@@ -12,7 +12,7 @@ internal class CampaignMode
 
         if (!a.CheckAccess() || a.IsEmpty(1))
         {
-            Console.WriteLine(!a.CheckAccess() ? "Unable to connect to the database.": "No character found.");
+            Console.WriteLine("No character found.");
             bool ano = f.boolOption("\nGENERAL CAMPAIGN MODE?");
             if (ano)
             {
