@@ -353,12 +353,12 @@ internal class AccessDataBase
                     Console.WriteLine($"Mental Health: {reader["MentalHealth"]}%");
                     Console.WriteLine();
                     Console.WriteLine("Press any key to proceed to the next character. [1] Exit.");
-                    if (Console.ReadLine() == "1")
+                    ConsoleKeyInfo pressed = Console.ReadKey(true);
+                    if (pressed.KeyChar == '1')
                     {
                         Console.Clear();
                         return;
                     }
-
                 }
                 Console.Clear();
                 Console.WriteLine("That's all the characters! \nPress any key to exit.");
