@@ -8,7 +8,6 @@ internal class Program
     {
         do
         {
-            Console.WriteLine("Kas testing commit");
             Console.WriteLine("\nT H E   W H I S T L E\n\nMAIN MENU:");
             Console.WriteLine("[1] NEW GAME");
             Console.WriteLine("[2] LOAD GAME");
